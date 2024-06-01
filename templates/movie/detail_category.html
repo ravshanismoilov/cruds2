@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>category film detail</title>
+</head>
+<body>
+    <h1> {{ category.name }} </h1>
+
+    {% for movie in movies %}
+        <img src="{{ movie.image.url }}" alt="image" height="200px"><br>
+        Film: {{ movie.film_name }}<br>
+        Price: {{ movie.price }} so'm<br>
+        <a href="{% url 'detail-movie' movie.pk %}"> For more </a><hr>
+    {% endfor %}
+
+</body>
+</html>

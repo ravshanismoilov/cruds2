@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ movie.film_name }}</title>
+</head>
+<body>
+    <h1> {{ movie.film_name }} </h1>
+    <img src="{{ movie.image.url }}" height="300px"><br>
+    Language: {{ movie.language }}<br>
+    Time: {{ movie.time }} minutes<br>
+    About: {{ movie.about }}<br>
+    Price: {{ movie.price }} so'm<hr>
+
+      <button><a href="{% url 'delete-movie' movie.pk %}"> Delete </a> </button>
+      <button><a href="{% url 'update-movie' movie.pk %}"> Update </a> </button>
+      <button><a href="{% url 'homepage' %}"> Home </a> </button>
+</body>
+</html>

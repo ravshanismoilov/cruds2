@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>category films</title>
+</head>
+<body>
+    <h1> Category Films </h1>
+
+    {% for category in categories %}
+        <h4><a href="{% url 'detail-category' category.pk %}"> {{ category.name }} </a></h4>
+    {% endfor %}
+
+</body>
+</html>
