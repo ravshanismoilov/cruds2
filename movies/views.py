@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
-from .models import Category, Movie
+from .models import Category, Movie, Review
 from .forms import CreateMovieForm
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 
 
 def home_page(request):
@@ -24,10 +26,16 @@ def detail_category(request, pk):
 
 def detail_movie(request, pk):
     movie = Movie.objects.get(pk=pk)
+    reviews = Review.objects.filter(movie=movie.pk)
+    movies = Movie.objects.filter(category=movie.category.pk).exclude(pk=movie.pk)
     context = {
-        'movie': movie
+        'movie': movie,
+        'movies': movies,
+        'reviews': reviews,
+        'reviews_cont': len(reviews)
     }
     return render(request, 'movie/detail_movie.html', context=context)
+
 
 def create_movie(request):
     create_form = CreateMovieForm(data=request.POST, files=request.FILES)
@@ -40,15 +48,19 @@ def create_movie(request):
     }
     return render(request, 'movie/create_movie.html', context=context)
 
+@login_required
 def delete_movie(request, pk):
+    user = request.user
     movie = Movie.objects.get(pk=pk)
-    context = {
-        'movie': movie
-    }
-    if movie:
-        movie.delete()
-        return redirect('detail-category', movie.category_id)
-    return render(request, 'movie/delete_movie.html', context=context)
+    if user.id == movie.user.id:
+        context = {
+            'movie': movie
+        }
+        if movie:
+            movie.delete()
+            return redirect('detail-category', movie.category_id)
+        return render(request, 'movie/delete_movie.html', context=context)
+
 
 def update_movie(request, pk):
     movie = Movie.objects.get(pk=pk)
@@ -62,3 +74,6 @@ def update_movie(request, pk):
         'movie': movie
     }
     return render(request, 'movie/update_movie.html', context=context)
+
+
+

@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 class Category(models.Model):
@@ -35,3 +36,20 @@ class Movie(models.Model):
 
     def __str__(self):
         return f'{self.category.name} - {self.film_name}, {self.time} minutes'
+
+
+
+class Review(models.Model):
+    body = models.TextField()
+    star_given = models.IntegerField(default=0, validators=[
+        MaxValueValidator(5),
+        MinValueValidator(0)
+    ])
+    movie = models.ForeignKey(to=Movie, on_delete=models.CASCADE)
+    user = models.CharField(max_length=100)
+
+    class Meta:
+        db_table ='review'
+
+    def __str__(self):
+        return f'{self.movie.film_name} - {self.star_given} - {self.user}'

@@ -15,5 +15,21 @@
       <button><a href="{% url 'delete-movie' movie.pk %}"> Delete </a> </button>
       <button><a href="{% url 'update-movie' movie.pk %}"> Update </a> </button>
       <button><a href="{% url 'homepage' %}"> Home </a> </button>
+      <button><a href="{% url 'detail-category' movie.pk %}"> Back </a> </button>
 </body>
+
+<h4>Reviews | {{ reviews_cont }}</h4>
+{% for review in reviews %}
+    {{ review.body }} | {{ review.user }} <br>
+{% endfor %}
 </html>
+
+
+<h4>All</h4>
+{% for m in movies %}
+    <img src="{{ m.image.url }}" alt="image" height="200px"><br>
+    <a href="{% url 'detail-movie' movie.pk %}">{{ m.film_name }}</a><hr>
+{% endfor %}
+</html>
+
+
